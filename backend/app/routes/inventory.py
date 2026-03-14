@@ -112,5 +112,6 @@ async def import_csv(
 ):
     content = await file.read()
     result = InventoryController.import_inventory_csv(content, db)
+    InventoryController.save_inventory_import_log(content, db, result)
     return result
 

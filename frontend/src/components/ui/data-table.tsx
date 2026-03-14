@@ -195,6 +195,7 @@ export function DataTable<TData, TValue>({
               size="sm"
               onClick={() => table.previousPage()}
               disabled={!table.getCanPreviousPage()}
+              className="cursor-pointer"
             >
               Previous
             </Button>
@@ -211,7 +212,7 @@ export function DataTable<TData, TValue>({
                     }
                     size="sm"
                     onClick={() => table.setPageIndex(page)}
-                    className="w-9"
+                    className="w-9 cursor-pointer"
                   >
                     {page + 1}
                   </Button>
@@ -229,7 +230,7 @@ export function DataTable<TData, TValue>({
                     }
                     size="sm"
                     onClick={() => table.setPageIndex(page)}
-                    className="w-9"
+                    className="w-9 cursor-pointer"
                   >
                     {page + 1}
                   </Button>
@@ -242,7 +243,7 @@ export function DataTable<TData, TValue>({
                     <Button
                       variant="default"
                       size="sm"
-                      className="w-9"
+                      className="w-9 cursor-pointer"
                       disabled
                     >
                       {table.getState().pagination.pageIndex + 1}
@@ -264,7 +265,7 @@ export function DataTable<TData, TValue>({
                     }
                     size="sm"
                     onClick={() => table.setPageIndex(page)}
-                    className="w-9"
+                    className="w-9 cursor-pointer"
                   >
                     {page + 1}
                   </Button>
@@ -277,6 +278,7 @@ export function DataTable<TData, TValue>({
               size="sm"
               onClick={() => table.nextPage()}
               disabled={!table.getCanNextPage()}
+              className="cursor-pointer"
             >
               Next
             </Button>

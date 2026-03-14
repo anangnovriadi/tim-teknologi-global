@@ -3,6 +3,7 @@ import io
 from datetime import datetime
 from sqlalchemy.orm import Session
 from ..models import InventoryTransaction, InventoryItem
+from ..utils.import_logger import save_import_log
 from typing import List, Dict, Any
 
 
@@ -133,3 +134,15 @@ class TransactionController:
             }
             for t in transactions
         ]
+
+    @staticmethod
+    def save_transaction_import_log(db: Session, result: dict) -> dict:
+        save_import_log(
+            db,
+            import_type="transaction",
+            total_rows=result.get("total_rows", 0),
+            accepted_rows=result.get("accepted_rows", 0),
+            rejected_rows=result.get("rejected_rows", 0),
+            errors=result.get("errors", [])
+        )
+        return result

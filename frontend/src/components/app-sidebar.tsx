@@ -1,10 +1,12 @@
 "use client"
 
 import * as React from "react";
+import { useEffect, useState } from "react";
 import {
   School,
   LayoutDashboard,
-  Package
+  Package,
+  Settings
 } from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
@@ -23,12 +25,17 @@ import { ROUTES } from "@/constants/routes";
 import { useSelector } from "react-redux";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const [mounted, setMounted] = useState(false);
   const user = useSelector((state: any) => state.auth.user);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const navData = {
     user: {
-      name: user?.name || "",
-      email: "Administrator",
+      name: user?.fullname || "User",
+      email: user?.email || "",
       avatar: user?.avatar || "",
     },
     navMain: [
@@ -43,6 +50,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         title: "Inventory",
         url: ROUTES.ADMIN.INVENTORY,
         icon: Package,
+        isActive: false,
+        items: [],
+      },
+      {
+        title: "Settings",
+        url: ROUTES.ADMIN.SETTINGS,
+        icon: Settings,
         isActive: false,
         items: [],
       },
@@ -71,7 +85,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavMain items={navData.navMain} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={navData.user} />
+        {mounted && <NavUser user={navData.user} />}
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

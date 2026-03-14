@@ -78,7 +78,7 @@ export function InventoryFilters({
             variant="secondary"
             size="sm"
             onClick={handleReset}
-            className="h-7 text-xs"
+            className="h-7 text-xs cursor-pointer"
           >
             <X className="h-1 w-1" />
             Clear All

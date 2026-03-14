@@ -33,9 +33,10 @@ interface ImportResult {
 interface TransactionImportDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  onImportSuccess?: () => void;
 }
 
-export function TransactionImportDialog({ open, onOpenChange }: TransactionImportDialogProps) {
+export function TransactionImportDialog({ open, onOpenChange, onImportSuccess }: TransactionImportDialogProps) {
   const [dragActive, setDragActive] = React.useState(false);
   const [importResult, setImportResult] = React.useState<ImportResult | null>(null);
   const [isLoading, setIsLoading] = React.useState(false);
@@ -101,14 +102,14 @@ export function TransactionImportDialog({ open, onOpenChange }: TransactionImpor
       setImportResult(result);
 
       if (result.success) {
-        toast.success(`Successfully imported ${result.accepted_rows} transactions`);
+        toast.success(`Successfully imported ${result.accepted_rows} transaction`);
       } else {
         toast.warning(
-          `Imported ${result.accepted_rows} transactions with ${result.rejected_rows} errors`
+          `Imported ${result.accepted_rows} transaction with ${result.rejected_rows} errors`
         );
       }
     } catch (error: any) {
-      toast.error(error?.message || "Failed to import transactions");
+      toast.error(error?.message || "Failed to import transaction");
       setImportResult(null);
     } finally {
       setIsLoading(false);
@@ -119,6 +120,9 @@ export function TransactionImportDialog({ open, onOpenChange }: TransactionImpor
     setImportResult(null);
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
+    }
+    if (importResult?.success && onImportSuccess) {
+      onImportSuccess();
     }
     onOpenChange(false);
   };
@@ -151,7 +155,7 @@ export function TransactionImportDialog({ open, onOpenChange }: TransactionImpor
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
-          <DialogTitle>Import Transactions</DialogTitle>
+          <DialogTitle>Import Transaction</DialogTitle>
           <DialogDescription>
             Upload a CSV file with columns: sku, warehouse, transaction_type, quantity, timestamp
             (transaction_type: restock, sale, adjustment)
@@ -262,17 +266,18 @@ export function TransactionImportDialog({ open, onOpenChange }: TransactionImpor
         )}
 
         <DialogFooter>
-          <Button variant="outline" onClick={handleDownloadTemplate} className="gap-2">
+          <Button variant="outline" onClick={handleDownloadTemplate} className="gap-2 cursor-pointer">
             <Download className="h-4 w-4" />
             Download Template
           </Button>
-          <Button variant="outline" onClick={handleClose}>
+          <Button variant="outline" onClick={handleClose} className="cursor-pointer">
             {importResult ? "Done" : "Cancel"}
           </Button>
           {!importResult && (
             <Button 
               onClick={() => fileInputRef.current?.click()}
               disabled={isLoading}
+              className="cursor-pointer"
             >
               {isLoading ? "Uploading..." : "Select File"}
             </Button>

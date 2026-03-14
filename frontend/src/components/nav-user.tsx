@@ -3,7 +3,10 @@
 import {
   ChevronsUpDown,
   LogOut,
+  User,
 } from "lucide-react"
+
+import { useState, useEffect } from "react"
 
 import {
   Avatar,
@@ -37,9 +40,22 @@ export function NavUser({
     avatar: string
   }
 }) {
+  const [mounted, setMounted] = useState(false);
   const { isMobile } = useSidebar();
   const dispatch = useDispatch()
   const router = useRouter()
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const initials = mounted
+    ? (user.name || "User")
+        .split(" ")
+        .map((n: string) => n[0])
+        .join("")
+        .toUpperCase()
+    : "U";
 
   const handleLogout = () => {
     dispatch(clearToken());
@@ -58,11 +74,10 @@ export function NavUser({
             >
               <Avatar className="h-8 w-8 rounded-lg">
                 <AvatarImage src={user.avatar} alt={user.name} />
-                <AvatarFallback className="rounded-lg">AD</AvatarFallback>
+                <AvatarFallback className="rounded-lg">{initials}</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{user.name}</span>
-                <span className="truncate text-xs">{user.email}</span>
               </div>
               <ChevronsUpDown className="ml-auto size-4" />
             </SidebarMenuButton>
@@ -77,11 +92,10 @@ export function NavUser({
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
                   <AvatarImage src={user.avatar} alt={user.name} />
-                  <AvatarFallback className="rounded-lg">AD</AvatarFallback>
+                  <AvatarFallback className="rounded-lg">{initials}</AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">{user.name}</span>
-                  <span className="truncate text-xs">{user.email}</span>
                 </div>
               </div>
             </DropdownMenuLabel>

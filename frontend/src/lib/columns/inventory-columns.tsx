@@ -24,6 +24,7 @@ export const inventoryColumns = (
       <Button
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        className="cursor-pointer"
       >
         SKU
         <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -37,6 +38,7 @@ export const inventoryColumns = (
       <Button
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        className="cursor-pointer"
       >
         Item Name
         <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -50,6 +52,7 @@ export const inventoryColumns = (
       <Button
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        className="cursor-pointer"
       >
         Category
         <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -63,6 +66,7 @@ export const inventoryColumns = (
       <Button
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        className="cursor-pointer"
       >
         Warehouse
         <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -76,7 +80,7 @@ export const inventoryColumns = (
       <Button
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        className="justify-end"
+        className="justify-end cursor-pointer"
       >
         Qty
         <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -92,7 +96,7 @@ export const inventoryColumns = (
       <Button
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        className="justify-end"
+        className="justify-end cursor-pointer"
       >
         Threshold
         <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -134,7 +138,7 @@ export const inventoryColumns = (
     cell: ({ row }) => (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className="h-8 w-8 p-0">
+          <Button variant="ghost" className="h-8 w-8 p-0 cursor-pointer">
             <span className="sr-only">Open menu</span>
             <MoreHorizontal className="h-4 w-4" />
           </Button>

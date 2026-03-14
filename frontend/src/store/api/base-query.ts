@@ -21,17 +21,22 @@ export const baseQuery = async (args: string | FetchArgs, api: BaseQueryApi, ext
   const result = await baseQueryAuth(args, api, extraOptions);
 
   if (result?.error?.status === 401 || result?.error?.status === 403) {
-    api.dispatch(clearToken());
-    Cookies.remove(COOKIE_KEYS.AUTH_TOKEN);
+    const url = typeof args === 'string' ? args : args.url || '';
+    
+    // Don't redirect for login endpoint - let login page handle error
+    if (!url.includes('/login')) {
+      api.dispatch(clearToken());
+      Cookies.remove(COOKIE_KEYS.AUTH_TOKEN);
 
-    if (typeof window !== 'undefined') {
-      window.location.href = ROUTES.AUTH.LOGIN;
+      if (typeof window !== 'undefined') {
+        window.location.href = ROUTES.AUTH.LOGIN;
+      }
+
+      toast.error("Invalid or expired token", {
+        id: 'token-expired',
+        duration: 2000,
+      });
     }
-
-    toast.error("Invalid or expired token", {
-      id: 'token-expired',
-      duration: 2000,
-    });
   }
 
   return result;

@@ -19,6 +19,11 @@ const Page = () => {
       const result = await login(values).unwrap();
       if (result.access_token) {
         dispatch(setToken(result.access_token));
+        dispatch(setUserInfo({
+          user_id: result.user_id,
+          fullname: result.fullname,
+          email: result.email,
+        }));
 
         toast.success('Login successful, redirecting...', {
           duration: 1000,
@@ -28,8 +33,8 @@ const Page = () => {
         });
       }
     } catch (error: any) {
-      console.error('Login error:', error);
-      toast.error("Login failed, " + error.data?.info)
+      const errorDetail = error?.data?.detail || "Invalid email or password";
+      toast.error(errorDetail);
     }
   };
 

@@ -14,7 +14,7 @@ export function ModeToggle() {
   }, []);
 
   if (!mounted) {
-    return <Button variant="outline" size="icon" aria-label="Toggle theme" disabled />;
+    return <Button variant="outline" size="icon" aria-label="Toggle theme" disabled className="cursor-pointer" />;
   }
 
   const toggleTheme = () => {
@@ -26,7 +26,7 @@ export function ModeToggle() {
   };
 
   return (
-    <Button variant="outline" size="icon" onClick={toggleTheme} aria-label="Toggle theme">
+    <Button variant="outline" size="icon" onClick={toggleTheme} aria-label="Toggle theme" className="cursor-pointer">
       {theme === "dark" ? <Sun /> : <Moon />}
     </Button>
   );

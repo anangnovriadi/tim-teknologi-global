@@ -2,6 +2,7 @@ import csv
 import io
 from sqlalchemy.orm import Session
 from ..models import InventoryItem
+from ..utils.import_logger import save_import_log
 from pydantic import BaseModel
 from typing import Optional
 
@@ -139,3 +140,15 @@ class InventoryController:
             "errors": errors,
             "success": total > 0 and rejected == 0
         }
+
+    @staticmethod
+    def save_inventory_import_log(file_content: bytes, db: Session, result: dict) -> dict:
+        save_import_log(
+            db,
+            import_type="inventory",
+            total_rows=result.get("total_rows", 0),
+            accepted_rows=result.get("accepted_rows", 0),
+            rejected_rows=result.get("rejected_rows", 0),
+            errors=result.get("errors", [])
+        )
+        return result

@@ -238,17 +238,18 @@ export function CSVImportDialog({ open, onOpenChange }: CSVImportDialogProps) {
         )}
 
         <DialogFooter>
-          <Button variant="outline" onClick={handleDownloadTemplate} className="gap-2">
+          <Button variant="outline" onClick={handleDownloadTemplate} className="gap-2 cursor-pointer">
             <Download className="h-4 w-4" />
             Download Template
           </Button>
-          <Button variant="outline" onClick={handleClose}>
+          <Button variant="outline" onClick={handleClose} className="cursor-pointer">
             {importResult ? "Done" : "Cancel"}
           </Button>
           {!importResult && (
             <Button 
               onClick={() => fileInputRef.current?.click()}
               disabled={isLoading}
+              className="cursor-pointer"
             >
               {isLoading ? "Uploading..." : "Select File"}
             </Button>

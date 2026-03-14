@@ -4,5 +4,6 @@ export const ROUTES = {
     ADMIN: {
         DASHBOARD: '/admin',
         INVENTORY: '/admin/inventory',
+        SETTINGS: '/admin/settings',
     },
 };

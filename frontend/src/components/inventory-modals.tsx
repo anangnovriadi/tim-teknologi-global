@@ -93,7 +93,7 @@ export function ViewDetailModal({ open, onOpenChange, item }: ViewDetailModalPro
           </div>
         </div>
         <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange(false)}>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="cursor-pointer">
             Close
           </Button>
         </DialogFooter>
@@ -223,10 +223,11 @@ export function EditModal({ open, onOpenChange, item }: EditModalProps) {
               variant="outline"
               onClick={() => onOpenChange(false)}
               disabled={isLoading}
+              className="cursor-pointer"
             >
               Cancel
             </Button>
-            <Button type="submit" disabled={isLoading}>
+            <Button type="submit" disabled={isLoading} className="cursor-pointer">
               {isLoading ? "Saving..." : "Save Changes"}
             </Button>
           </DialogFooter>
@@ -263,11 +264,11 @@ export function DeleteModal({ open, onOpenChange, item }: DeleteModalProps) {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel disabled={isLoading}>Cancel</AlertDialogCancel>
+          <AlertDialogCancel disabled={isLoading} className="cursor-pointer">Cancel</AlertDialogCancel>
           <AlertDialogAction
             onClick={handleDelete}
             disabled={isLoading}
-            className="bg-red-600 hover:bg-red-700"
+            className="bg-red-600 hover:bg-red-700 cursor-pointer"
           >
             {isLoading ? "Deleting..." : "Delete"}
           </AlertDialogAction>

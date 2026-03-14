@@ -19,6 +19,17 @@ export interface LoginResponse {
     access_token: string;
     token_type: string;
 }
+
+export interface UpdateProfileRequest {
+    fullname: string;
+}
+
+export interface UpdateProfileResponse {
+    user_id: number;
+    fullname: string;
+    email: string;
+}
+
 export interface RegisterResponse extends ApiResponse<{ email: string }> {}
 
 export const authApi = createApi({
@@ -32,7 +43,17 @@ export const authApi = createApi({
                 body: credentials,
             }),
         }),
+        getProfile: builder.query<UpdateProfileResponse, void>({
+            query: () => '/auth/profile',
+        }),
+        updateProfile: builder.mutation<UpdateProfileResponse, UpdateProfileRequest>({
+            query: (data) => ({
+                url: '/auth/profile',
+                method: 'PUT',
+                body: data,
+            }),
+        }),
     }),
 });
 
-export const { useLoginMutation } = authApi;
+export const { useLoginMutation, useGetProfileQuery, useUpdateProfileMutation } = authApi;

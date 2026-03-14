@@ -9,9 +9,10 @@ import { ViewDetailModal, EditModal, DeleteModal } from "@/components/inventory-
 import { InventoryFilters } from "@/components/inventory-filters";
 import { CSVImportDialog } from "@/components/csv-import-dialog";
 import { TransactionImportDialog } from "@/components/transaction-import-dialog";
+import { ImportHistoryDialog } from "@/components/import-history-dialog";
 import { inventoryColumns } from "@/lib/columns/inventory-columns";
 import { Button } from "@/components/ui/button";
-import { Upload, Search, FileUp } from "lucide-react";
+import { Upload, Search, FileUp, History } from "lucide-react";
 
 interface FilterOptions {
   category?: string;
@@ -20,7 +21,7 @@ interface FilterOptions {
 }
 
 export default function InventoryPage() {
-  const { data: inventoryItems = [], isLoading } = useGetAllInventoryQuery();
+  const { data: inventoryItems = [], isLoading, refetch } = useGetAllInventoryQuery();
   
   const [selectedItem, setSelectedItem] = React.useState<InventoryItem | null>(null);
   const [viewModalOpen, setViewModalOpen] = React.useState(false);
@@ -28,6 +29,7 @@ export default function InventoryPage() {
   const [deleteModalOpen, setDeleteModalOpen] = React.useState(false);
   const [csvImportOpen, setCsvImportOpen] = React.useState(false);
   const [transactionImportOpen, setTransactionImportOpen] = React.useState(false);
+  const [importHistoryOpen, setImportHistoryOpen] = React.useState(false);
   const [searchValue, setSearchValue] = React.useState("");
   const [filters, setFilters] = React.useState<FilterOptions>({});
 
@@ -106,18 +108,25 @@ export default function InventoryPage() {
             <div className="flex gap-2 flex-shrink-0">
               <Button 
                 onClick={() => setTransactionImportOpen(true)}
-                variant="outline"
-                className="gap-2"
+                className="gap-2 cursor-pointer bg-slate-600 hover:bg-slate-700 text-white"
               >
                 <FileUp className="h-4 w-4" />
-                Import Transactions
+                Import Transaction
               </Button>
               <Button 
                 onClick={() => setCsvImportOpen(true)}
-                className="gap-2"
+                className="gap-2 cursor-pointer"
               >
                 <Upload className="h-4 w-4" />
                 Import Inventory
+              </Button>
+              <Button 
+                onClick={() => setImportHistoryOpen(true)}
+                variant="outline"
+                className="gap-2 cursor-pointer"
+              >
+                <History className="h-4 w-4" />
+                View History
               </Button>
             </div>
           </div>
@@ -160,6 +169,12 @@ export default function InventoryPage() {
       <TransactionImportDialog 
         open={transactionImportOpen}
         onOpenChange={setTransactionImportOpen}
+        onImportSuccess={refetch}
+      />
+
+      <ImportHistoryDialog 
+        open={importHistoryOpen}
+        onOpenChange={setImportHistoryOpen}
       />
     </DashboardLayout>
   );

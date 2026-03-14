@@ -61,8 +61,12 @@ async def import_transactions(
     - transaction_type: restock, sale, adjustment
     - timestamp: ISO format (YYYY-MM-DD HH:MM:SS)
     """
+    print(f"📂 Importing transaction CSV: {file.filename}")
     content = await file.read()
     result = TransactionController.import_transactions_csv(content, db)
+    print(f"📊 Transaction import result: {result}")
+    TransactionController.save_transaction_import_log(db, result)
+    print(f"✅ Transaction import completed for {file.filename}")
     return result
 
 

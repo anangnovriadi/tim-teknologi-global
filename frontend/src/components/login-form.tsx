@@ -85,7 +85,7 @@ const LoginForm: FC<Props> = ({ onSubmit, isLoading }) => {
                   />
                   <button
                     type="button"
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground focus:outline-none"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground focus:outline-none cursor-pointer"
                     onClick={() => setShowPassword((prev) => !prev)}
                     tabIndex={-1}
                   >

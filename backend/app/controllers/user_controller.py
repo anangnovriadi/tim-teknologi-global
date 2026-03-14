@@ -48,10 +48,10 @@ class UserController:
         """
         user = db.query(User).filter(User.email == email).first()
         if not user:
-            return {"error": "Invalid credentials"}
+            return {"error": "Invalid email or password"}
 
         if not verify_password(password, user.password):
-            return {"error": "Invalid credentials"}
+            return {"error": "Invalid email or password"}
 
         if not user.is_active:
             return {"error": "User account is inactive"}
@@ -93,3 +93,30 @@ class UserController:
             User object or None
         """
         return db.query(User).filter(User.id == user_id).first()
+    @staticmethod
+    def update_user_profile(user_id: int, fullname: str, db: Session) -> dict:
+        """
+        Update user profile information
+        
+        Args:
+            user_id: User's ID
+            fullname: New fullname
+            db: Database session
+            
+        Returns:
+            Dictionary with updated user info, or error message
+        """
+        user = db.query(User).filter(User.id == user_id).first()
+        if not user:
+            return {"error": "User not found"}
+
+        if fullname and fullname.strip():
+            user.fullname = fullname.strip()
+            db.commit()
+            db.refresh(user)
+
+        return {
+            "user_id": user.id,
+            "fullname": user.fullname,
+            "email": user.email
+        }

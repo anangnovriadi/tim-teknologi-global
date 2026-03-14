@@ -2,11 +2,13 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import authSlice from './auth-slice';
 import { authApi } from './api/auth-api';
 import { inventoryApi } from './api/inventory-api';
+import { importLogsApi } from './api/import-logs-api';
 
 const rootReducer = combineReducers({
     auth: authSlice,
     [authApi.reducerPath]: authApi.reducer,
     [inventoryApi.reducerPath]: inventoryApi.reducer,
+    [importLogsApi.reducerPath]: importLogsApi.reducer,
 });
 
 const store = configureStore({
@@ -15,6 +17,7 @@ const store = configureStore({
         getDefaultMiddleware().concat([
             authApi.middleware,
             inventoryApi.middleware,
+            importLogsApi.middleware,
         ]),
 });
 
