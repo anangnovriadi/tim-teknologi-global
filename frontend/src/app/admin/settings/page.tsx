@@ -58,7 +58,7 @@ export default function SettingsPage() {
       <div className="grid gap-4 w-full">
         <Card className="w-full">
           <CardHeader>
-            <CardTitle>Account Settings</CardTitle>
+            <CardTitle>Settings</CardTitle>
             <CardDescription>Manage your account information</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
