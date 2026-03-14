@@ -90,7 +90,7 @@ export default function InventoryPage() {
       <Card>
         <CardHeader>
           <CardTitle>
-            Inventory Items ({filteredItems.length})
+            Inventory Items
           </CardTitle>
         </CardHeader>
         <CardContent>

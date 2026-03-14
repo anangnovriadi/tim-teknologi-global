@@ -66,13 +66,13 @@ export function ImportHistoryDialog({ open, onOpenChange }: ImportHistoryDialogP
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-5xl max-h-[80vh] overflow-y-auto">
+      <DialogContent className="max-w-5xl max-h-[70vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Import History</DialogTitle>
           <DialogDescription>View your import logs and results</DialogDescription>
         </DialogHeader>
 
-        <div className="flex gap-2 mb-4">
+        <div className="flex gap-2">
           <Button
             variant={filterType === "all" ? "default" : "outline"}
             size="sm"
