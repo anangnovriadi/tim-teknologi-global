@@ -1,0 +1,38 @@
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.sqlite3
+*.log
+*.env
+
+# Virtual environments
+venv/
+.env/
+
+# Node
+node_modules/
+
+# Build
+dist/
+build/
+
+# MacOS
+.DS_Store
+
+# Vite
+.vite
+
+# IDE
+.vscode/
+.idea/
+
+# Testing
+.coverage
+pytest_cache/
