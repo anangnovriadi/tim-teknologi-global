@@ -46,8 +46,8 @@ export function ImportHistoryDialog({ open, onOpenChange }: ImportHistoryDialogP
   const filteredLogs = filterType === "all" 
     ? allLogs 
     : filterType === "inventory"
-    ? inventoryLogs.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
-    : transactionLogs.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+    ? [...inventoryLogs].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+    : [...transactionLogs].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
 
   const renderErrorDetails = (errors: any[]) => {
     return (
@@ -66,7 +66,7 @@ export function ImportHistoryDialog({ open, onOpenChange }: ImportHistoryDialogP
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto">
+      <DialogContent className="max-w-5xl max-h-[80vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Import History</DialogTitle>
           <DialogDescription>View your import logs and results</DialogDescription>
@@ -107,45 +107,45 @@ export function ImportHistoryDialog({ open, onOpenChange }: ImportHistoryDialogP
           ) : (
             filteredLogs.map((log) => (
               <Card key={log.log_id}>
-                <CardHeader className="pb-3">
+                <CardHeader className="pb-4">
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-3">
                       {log.status === "success" ? (
-                        <CheckCircle className="h-5 w-5 text-green-600" />
+                        <CheckCircle className="h-6 w-6 text-green-600" />
                       ) : (
-                        <AlertCircle className="h-5 w-5 text-red-600" />
+                        <AlertCircle className="h-6 w-6 text-red-600" />
                       )}
                       <div>
-                        <CardTitle className="text-sm capitalize">{log.import_type} Import</CardTitle>
-                        <CardDescription className="text-xs">
-                          <Clock className="inline h-3 w-3 mr-1" />
+                        <CardTitle className="text-base capitalize">{log.import_type} Import</CardTitle>
+                        <CardDescription className="text-sm">
+                          <Clock className="inline h-4 w-4 mr-1" />
                           {format(new Date(log.created_at), "MMM dd, yyyy HH:mm:ss")}
                         </CardDescription>
                       </div>
                     </div>
-                    <Badge variant={log.status === "success" ? "default" : "destructive"}>
+                    <Badge variant={log.status === "success" ? "default" : "destructive"} className="text-sm">
                       {log.status}
                     </Badge>
                   </div>
                 </CardHeader>
-                <CardContent className="space-y-3">
+                <CardContent className="space-y-4">
                   <div className="grid grid-cols-3 gap-4 text-sm">
                     <div>
                       <p className="text-muted-foreground">Total Rows</p>
-                      <p className="font-semibold">{log.total_rows}</p>
+                      <p className="font-semibold text-lg">{log.total_rows}</p>
                     </div>
                     <div>
                       <p className="text-muted-foreground">Accepted</p>
-                      <p className="font-semibold text-green-600">{log.accepted_rows}</p>
+                      <p className="font-semibold text-green-600 text-lg">{log.accepted_rows}</p>
                     </div>
                     <div>
                       <p className="text-muted-foreground">Rejected</p>
-                      <p className="font-semibold text-red-600">{log.rejected_rows}</p>
+                      <p className="font-semibold text-red-600 text-lg">{log.rejected_rows}</p>
                     </div>
                   </div>
                   {log.rejected_rows > 0 && log.errors.length > 0 && (
-                    <div className="border-t pt-3">
-                      <p className="text-sm font-medium mb-2">Error Details:</p>
+                    <div className="border-t pt-4">
+                      <p className="text-sm font-medium mb-3">Error Details:</p>
                       {renderErrorDetails(log.errors)}
                     </div>
                   )}
