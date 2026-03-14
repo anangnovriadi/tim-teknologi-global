@@ -14,13 +14,13 @@ import { X } from "lucide-react";
 interface FilterOptions {
   category?: string;
   warehouse?: string;
-  status?: "low" | "normal";
+  status?: "low" | "normal" | "outofstock";
 }
 
 type FiltersState = {
   category: string;
   warehouse: string;
-  status: "all" | "low" | "normal";
+  status: "all" | "low" | "normal" | "outofstock";
 };
 
 interface InventoryFiltersProps {
@@ -44,7 +44,7 @@ export function InventoryFilters({
     const out: FilterOptions = {};
     if (state.category !== "all") out.category = state.category;
     if (state.warehouse !== "all") out.warehouse = state.warehouse;
-    if (state.status !== "all") out.status = state.status as "low" | "normal";
+    if (state.status !== "all") out.status = state.status as "low" | "normal" | "outofstock";
     onFiltersChange(out);
   };
 
@@ -148,8 +148,9 @@ export function InventoryFilters({
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">All Status</SelectItem>
+              <SelectItem value="normal">In Stock</SelectItem>
               <SelectItem value="low">Low Stock</SelectItem>
-              <SelectItem value="normal">Normal Stock</SelectItem>
+              <SelectItem value="outofstock">Out of Stock</SelectItem>
             </SelectContent>
           </Select>
         </div>

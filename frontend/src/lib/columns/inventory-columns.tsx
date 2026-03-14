@@ -108,18 +108,22 @@ export const inventoryColumns = (
     cell: ({ row }) => {
       const quantity = row.original.quantity_on_hand;
       const threshold = row.original.reorder_threshold;
-      const isLowStock = quantity <= threshold;
+      const isOutOfStock = quantity === 0;
+      const isLowStock = quantity > 0 && quantity <= threshold;
+      const isInStock = quantity > threshold;
 
       return (
         <div className="text-center">
           <span
             className={`inline-flex px-2.5 py-1 text-xs font-semibold rounded-full ${
-              isLowStock
+              isOutOfStock
                 ? "bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300"
+                : isLowStock
+                ? "bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300"
                 : "bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300"
             }`}
           >
-            {isLowStock ? "Low" : "Normal"}
+            {isOutOfStock ? "Out of Stock" : isLowStock ? "Low Stock" : "In Stock"}
           </span>
         </div>
       );

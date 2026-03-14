@@ -94,7 +94,7 @@ class InventoryController:
         rejected = 0
         errors = []
 
-        for i, row in enumerate(reader, start=2):
+        for i, row in enumerate(reader, start=1):
             total += 1
             try:
                 sku = row.get("sku", "").strip()

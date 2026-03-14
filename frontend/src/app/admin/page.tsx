@@ -3,6 +3,7 @@
 import DashboardLayout from "@/components/layouts/layout-dashboard";
 import { useGetAllInventoryQuery } from "@/store/api/inventory-api";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { InventoryVisualization } from "@/components/inventory-visualization";
 import { Package, AlertCircle, Loader2 } from "lucide-react";
 
 export default function Page() {
@@ -15,13 +16,6 @@ export default function Page() {
 
   return (
     <DashboardLayout title="Dashboard">
-      <div className="bg-gray-500 dark:bg-sidebar text-white rounded-lg p-8 border">
-        <h1 className="text-xl font-bold mb-2">Welcome Back</h1>
-        <p className="text-sm">
-          Manage your inventory efficiently. Monitor stock and reorder alerts here.
-        </p>
-      </div>
-
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
         <Card>
           <CardHeader>
@@ -74,6 +68,8 @@ export default function Page() {
           </CardContent>
         </Card>
       </div>
+
+      <InventoryVisualization items={inventoryItems} />
     </DashboardLayout>
   );
 }

@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
 
-// Remove /api suffix from API_URL for WebSocket connection
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/api';
 const SOCKET_URL = API_URL.replace('/api', '');
 
@@ -30,12 +29,10 @@ export const useImportProgress = (jobId: string | null) => {
         console.log('[WebSocket] Connecting for jobId:', jobId);
         console.log('[WebSocket] Connecting to:', SOCKET_URL + '/import');
 
-        // Reset state when new jobId is set
         setProgress(0);
         setIsCompleted(false);
         setError(null);
 
-        // Create socket connection with '/import' namespace
         const newSocket = io(SOCKET_URL + '/import', {
             transports: ['websocket', 'polling'],
             reconnection: true,

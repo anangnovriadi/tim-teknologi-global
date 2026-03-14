@@ -8,14 +8,15 @@ import { DataTable } from "@/components/ui/data-table";
 import { ViewDetailModal, EditModal, DeleteModal } from "@/components/inventory-modals";
 import { InventoryFilters } from "@/components/inventory-filters";
 import { CSVImportDialog } from "@/components/csv-import-dialog";
+import { TransactionImportDialog } from "@/components/transaction-import-dialog";
 import { inventoryColumns } from "@/lib/columns/inventory-columns";
 import { Button } from "@/components/ui/button";
-import { Upload, Search } from "lucide-react";
+import { Upload, Search, FileUp } from "lucide-react";
 
 interface FilterOptions {
   category?: string;
   warehouse?: string;
-  status?: "all" | "low" | "normal";
+  status?: "low" | "normal" | "outofstock";
 }
 
 export default function InventoryPage() {
@@ -26,6 +27,7 @@ export default function InventoryPage() {
   const [editModalOpen, setEditModalOpen] = React.useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = React.useState(false);
   const [csvImportOpen, setCsvImportOpen] = React.useState(false);
+  const [transactionImportOpen, setTransactionImportOpen] = React.useState(false);
   const [searchValue, setSearchValue] = React.useState("");
   const [filters, setFilters] = React.useState<FilterOptions>({});
 
@@ -60,9 +62,13 @@ export default function InventoryPage() {
       if (filters.warehouse && item.warehouse !== filters.warehouse) return false;
       
       if (filters.status) {
-        const isLowStock = item.quantity_on_hand <= item.reorder_threshold;
+        const isOutOfStock = item.quantity_on_hand === 0;
+        const isLowStock = item.quantity_on_hand > 0 && item.quantity_on_hand <= item.reorder_threshold;
+        const isInStock = item.quantity_on_hand > item.reorder_threshold;
+        
+        if (filters.status === "outofstock" && !isOutOfStock) return false;
         if (filters.status === "low" && !isLowStock) return false;
-        if (filters.status === "normal" && isLowStock) return false;
+        if (filters.status === "normal" && !isInStock) return false;
       }
       
       return true;
@@ -97,13 +103,23 @@ export default function InventoryPage() {
                 className="pl-10 w-full px-3 py-2 border rounded-md text-sm"
               />
             </div>
-            <Button 
-              onClick={() => setCsvImportOpen(true)}
-              className="gap-2 flex-shrink-0"
-            >
-              <Upload className="h-4 w-4" />
-              Import from CSV
-            </Button>
+            <div className="flex gap-2 flex-shrink-0">
+              <Button 
+                onClick={() => setTransactionImportOpen(true)}
+                variant="outline"
+                className="gap-2"
+              >
+                <FileUp className="h-4 w-4" />
+                Import Transactions
+              </Button>
+              <Button 
+                onClick={() => setCsvImportOpen(true)}
+                className="gap-2"
+              >
+                <Upload className="h-4 w-4" />
+                Import Inventory
+              </Button>
+            </div>
           </div>
           <DataTable
             columns={columns}
@@ -139,6 +155,11 @@ export default function InventoryPage() {
       <CSVImportDialog 
         open={csvImportOpen}
         onOpenChange={setCsvImportOpen}
+      />
+
+      <TransactionImportDialog 
+        open={transactionImportOpen}
+        onOpenChange={setTransactionImportOpen}
       />
     </DashboardLayout>
   );

@@ -7,6 +7,7 @@ pydantic
 python-multipart
 python-dotenv
 pytest
+pytest-cov
 PyJWT
 bcrypt
 python-jose[cryptography]
