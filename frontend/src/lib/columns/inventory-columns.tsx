@@ -108,7 +108,25 @@ export const inventoryColumns = (
   },
   {
     id: "status",
-    header: "Status",
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        className="cursor-pointer"
+      >
+        Stock Status
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
+    sortingFn: (rowA, rowB) => {
+      const getRank = (item: InventoryItem) => {
+        if (item.quantity_on_hand === 0) return 0;
+        if (item.quantity_on_hand <= item.reorder_threshold) return 1;
+        return 2;
+      };
+
+      return getRank(rowA.original) - getRank(rowB.original);
+    },
     cell: ({ row }) => {
       const quantity = row.original.quantity_on_hand;
       const threshold = row.original.reorder_threshold;

@@ -1,6 +1,7 @@
 import csv
 import io
 from sqlalchemy.orm import Session
+from sqlalchemy import func
 from ..models import InventoryItem, Warehouse, Category
 from ..utils.import_logger import save_import_log
 from pydantic import BaseModel
@@ -94,6 +95,7 @@ class InventoryController:
         accepted = 0
         rejected = 0
         errors = []
+        seen_names = set()
 
         for i, row in enumerate(reader, start=1):
             total += 1
@@ -124,6 +126,14 @@ class InventoryController:
                 if existing:
                     raise ValueError(f"SKU '{sku}' already exists")
 
+                normalized_name = name.lower()
+                if normalized_name in seen_names:
+                    raise ValueError(f"Item name '{name}' is duplicated in CSV file")
+
+                existing_name = db.query(InventoryItem).filter(func.lower(InventoryItem.name) == normalized_name).first()
+                if existing_name:
+                    raise ValueError(f"Item name '{name}' already exists")
+
                 item = InventoryItem(
                     sku=sku,
                     name=name,
@@ -134,6 +144,7 @@ class InventoryController:
                 )
                 db.add(item)
                 db.commit()
+                seen_names.add(normalized_name)
                 accepted += 1
 
             except (ValueError, KeyError) as e:
