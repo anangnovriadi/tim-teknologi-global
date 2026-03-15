@@ -94,8 +94,24 @@ npm run dev
 ## Run Tests
 
 ```bash
+# Run all tests
+./run_tests.sh all
+
+# Run backend tests only
+./run_tests.sh backend
+
+# Run frontend tests only
+./run_tests.sh frontend
+```
+
+You can also run tests manually:
+
+```bash
 cd backend
 pytest tests/ -v
+
+cd ../frontend
+npm test
 ```
 
 ---
