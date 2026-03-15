@@ -51,7 +51,7 @@ export default function Page() {
       {/* Row 1: Total Items & Total Warehouse */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
         <StatCard
-          title="Total Items"
+          title="Total Inventory Items"
           value={totalItems}
           icon={Package}
           bgColor="bg-blue-100 dark:bg-blue-900/30"
@@ -69,21 +69,21 @@ export default function Page() {
       {/* Row 2: In Stock, Low Stock, Out of Stock */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5">
         <StatCard
-          title="In Stock"
+          title="Inventory - In Stock"
           value={inStockItems}
           icon={CheckCircle}
           bgColor="bg-green-100 dark:bg-green-900/30"
           textColor="text-green-600 dark:text-green-400"
         />
         <StatCard
-          title="Low Stock"
+          title="Inventory - Low Stock"
           value={lowStockItems}
           icon={AlertCircle}
           bgColor="bg-yellow-100 dark:bg-yellow-900/30"
           textColor="text-yellow-600 dark:text-yellow-400"
         />
         <StatCard
-          title="Out of Stock"
+          title="Inventory - Out of Stock"
           value={outOfStockItems}
           icon={XCircle}
           bgColor="bg-red-100 dark:bg-red-900/30"
