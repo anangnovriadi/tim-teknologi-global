@@ -51,7 +51,7 @@ export function ViewDetailModal({ open, onOpenChange, item }: ViewDetailModalPro
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>Item Details</DialogTitle>
+          <DialogTitle>Item Detail</DialogTitle>
           <DialogDescription>
             View complete information for {item.name}
           </DialogDescription>

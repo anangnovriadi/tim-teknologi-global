@@ -135,6 +135,7 @@ export const inventoryColumns = (
   },
   {
     id: "actions",
+    header: "Actions",
     cell: ({ row }) => (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
@@ -143,11 +144,11 @@ export const inventoryColumns = (
             <MoreHorizontal className="h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="start">
+        <DropdownMenuContent align="center">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem className="cursor-pointer" onClick={() => onViewDetails(row.original)}>
-            View Details
+            View Detail
           </DropdownMenuItem>
           <DropdownMenuItem className="cursor-pointer" onClick={() => onEdit(row.original)}>
             Edit Item

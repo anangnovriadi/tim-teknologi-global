@@ -172,7 +172,7 @@ export default function CategoryPage() {
                 <MoreHorizontal className="h-4 w-4" />
               </ActionButton>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="start">
+            <DropdownMenuContent align="center">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => openEditDialog(category)} className="cursor-pointer">

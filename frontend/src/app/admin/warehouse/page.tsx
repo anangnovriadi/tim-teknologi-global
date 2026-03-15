@@ -196,7 +196,7 @@ export default function WarehousePage() {
                 <MoreHorizontal className="h-4 w-4" />
               </ActionButton>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="start">
+            <DropdownMenuContent align="center">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => openEditDialog(warehouse)} className="cursor-pointer">
