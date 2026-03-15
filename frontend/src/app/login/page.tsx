@@ -1,7 +1,7 @@
 'use client';
 
 import LoginForm from "@/components/login-form";
-import { School } from "lucide-react";
+import { Apple } from "lucide-react";
 import { useDispatch } from 'react-redux';
 import { LoginCredentials, useLoginMutation } from '@/store/api/auth-api';
 import { useRouter } from 'next/navigation';
@@ -44,7 +44,7 @@ const Page = () => {
         <a href="/admin">
           <div className="font-bold text-center pb-4 text-lg">
             <div className="bg-sidebar-primary dark:text-white text-primary-foreground flex size-10 items-center justify-center rounded-md mx-auto mb-1">
-              <School className="size-6" />
+              <Apple className="size-6" />
             </div>
             Tim Teknologi Global
           </div>
