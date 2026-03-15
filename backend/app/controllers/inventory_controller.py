@@ -1,7 +1,7 @@
 import csv
 import io
 from sqlalchemy.orm import Session
-from ..models import InventoryItem
+from ..models import InventoryItem, Warehouse, Category
 from ..utils.import_logger import save_import_log
 from pydantic import BaseModel
 from typing import Optional
@@ -107,6 +107,18 @@ class InventoryController:
 
                 if not sku or not name:
                     raise ValueError("SKU and name are required")
+
+                # Validate warehouse exists
+                if warehouse:
+                    warehouse_exists = db.query(Warehouse).filter(Warehouse.name == warehouse).first()
+                    if not warehouse_exists:
+                        raise ValueError(f"Warehouse '{warehouse}' does not exist. Please create it first.")
+
+                # Validate category exists
+                if category:
+                    category_exists = db.query(Category).filter(Category.name == category).first()
+                    if not category_exists:
+                        raise ValueError(f"Category '{category}' does not exist. Please create it first.")
 
                 existing = db.query(InventoryItem).filter(InventoryItem.sku == sku).first()
                 if existing:

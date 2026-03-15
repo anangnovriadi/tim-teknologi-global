@@ -80,7 +80,7 @@ export const inventoryColumns = (
       <Button
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        className="justify-end cursor-pointer"
+        className="cursor-pointer"
       >
         Qty
         <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -96,7 +96,7 @@ export const inventoryColumns = (
       <Button
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        className="justify-end cursor-pointer"
+        className="cursor-pointer"
       >
         Threshold
         <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -117,7 +117,7 @@ export const inventoryColumns = (
       const isInStock = quantity > threshold;
 
       return (
-        <div className="text-center">
+        <div>
           <span
             className={`inline-flex px-2.5 py-1 text-xs font-semibold rounded-full ${
               isOutOfStock
@@ -143,19 +143,19 @@ export const inventoryColumns = (
             <MoreHorizontal className="h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
+        <DropdownMenuContent align="start">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => onViewDetails(row.original)}>
+          <DropdownMenuItem className="cursor-pointer" onClick={() => onViewDetails(row.original)}>
             View Details
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => onEdit(row.original)}>
+          <DropdownMenuItem className="cursor-pointer" onClick={() => onEdit(row.original)}>
             Edit Item
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem 
             onClick={() => onDelete(row.original)}
-            className="text-red-600 dark:text-red-400"
+            className="text-red-600 dark:text-red-400 cursor-pointer"
           >
             Delete Item
           </DropdownMenuItem>

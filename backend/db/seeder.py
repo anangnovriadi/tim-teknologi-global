@@ -5,7 +5,7 @@ from datetime import datetime
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 from app.database import SessionLocal
-from app.models import User, InventoryItem
+from app.models import User, InventoryItem, Warehouse, Category
 from app.utils import hash_password
 
 
@@ -33,6 +33,83 @@ def seed_users():
         
     except Exception as e:
         print(f"✗ Failed to seed users: {str(e)}")
+        db.rollback()
+    finally:
+        db.close()
+
+
+def seed_warehouses():
+    db = SessionLocal()
+    
+    try:
+        warehouse_count = db.query(Warehouse).count()
+        if warehouse_count > 0:
+            print("✓ Warehouses already exist, skipping warehouse seeding")
+            return
+        
+        warehouses = [
+            Warehouse(
+                name="Warehouse A",
+                location="Jakarta",
+                description="Main warehouse located in Jakarta"
+            ),
+            Warehouse(
+                name="Warehouse B",
+                location="Surabaya",
+                description="Secondary warehouse in Surabaya"
+            ),
+            Warehouse(
+                name="Warehouse C",
+                location="Bandung",
+                description="Tertiary warehouse in Bandung"
+            ),
+        ]
+        
+        db.add_all(warehouses)
+        db.commit()
+        print(f"✓ Created {len(warehouses)} sample warehouses")
+        
+    except Exception as e:
+        print(f"✗ Failed to seed warehouses: {str(e)}")
+        db.rollback()
+    finally:
+        db.close()
+
+
+def seed_categories():
+    db = SessionLocal()
+    
+    try:
+        category_count = db.query(Category).count()
+        if category_count > 0:
+            print("✓ Categories already exist, skipping category seeding")
+            return
+        
+        categories = [
+            Category(
+                name="Electronics",
+                description="Electronic devices and equipment"
+            ),
+            Category(
+                name="Furniture",
+                description="Office and home furniture"
+            ),
+            Category(
+                name="Lighting",
+                description="Lighting fixtures and bulbs"
+            ),
+            Category(
+                name="Accessories",
+                description="Computer and office accessories"
+            ),
+        ]
+        
+        db.add_all(categories)
+        db.commit()
+        print(f"✓ Created {len(categories)} sample categories")
+        
+    except Exception as e:
+        print(f"✗ Failed to seed categories: {str(e)}")
         db.rollback()
     finally:
         db.close()
@@ -105,6 +182,8 @@ def seed_all():
     print("Starting database seeding...\n")
     
     seed_users()
+    seed_warehouses()
+    seed_categories()
     seed_inventory()
     
     print("\n✓ Database seeding completed!")

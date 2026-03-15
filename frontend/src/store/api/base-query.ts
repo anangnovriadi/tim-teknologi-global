@@ -29,7 +29,7 @@ export const baseQuery = async (args: string | FetchArgs, api: BaseQueryApi, ext
       Cookies.remove(COOKIE_KEYS.AUTH_TOKEN);
 
       if (typeof window !== 'undefined') {
-        window.location.href = ROUTES.AUTH.LOGIN;
+        window.location.href = ROUTES.LOGIN;
       }
 
       toast.error("Invalid or expired token", {

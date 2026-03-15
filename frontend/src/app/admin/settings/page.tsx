@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/button";
 import { useAppSelector, useAppDispatch } from "@/store/hooks";
 import { useUpdateProfileMutation, useGetProfileQuery } from "@/store/api/auth-api";
 import { setUserInfo } from "@/store/auth-slice";
-import { Mail, User } from "lucide-react";
 import { toast } from "sonner";
 
 export default function SettingsPage() {

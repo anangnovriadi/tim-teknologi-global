@@ -6,7 +6,9 @@ import {
   School,
   LayoutDashboard,
   Package,
-  Settings
+  Settings,
+  Warehouse,
+  Tag
 } from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
@@ -50,6 +52,20 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         title: "Inventory",
         url: ROUTES.ADMIN.INVENTORY,
         icon: Package,
+        isActive: false,
+        items: [],
+      },
+      {
+        title: "Warehouse",
+        url: ROUTES.ADMIN.WAREHOUSE,
+        icon: Warehouse,
+        isActive: false,
+        items: [],
+      },
+      {
+        title: "Category",
+        url: ROUTES.ADMIN.CATEGORY,
+        icon: Tag,
         isActive: false,
         items: [],
       },
