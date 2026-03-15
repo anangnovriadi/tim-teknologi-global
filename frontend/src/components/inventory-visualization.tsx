@@ -19,28 +19,61 @@ export interface InventoryVisualizationProps {
     quantity_on_hand: number;
     reorder_threshold: number;
   }>;
+  categories?: Array<{ name: string }>;
+  warehouses?: Array<{ name: string }>;
 }
 
-export function InventoryVisualization({ items }: InventoryVisualizationProps) {
+export function InventoryVisualization({ items, categories, warehouses }: InventoryVisualizationProps) {
+  const colors = [
+    "var(--chart-1)",
+    "var(--chart-2)",
+    "var(--chart-3)",
+    "var(--chart-4)",
+    "var(--chart-5)",
+    "hsl(200, 100%, 50%)",
+    "hsl(280, 100%, 50%)",
+    "hsl(340, 100%, 50%)",
+    "hsl(120, 100%, 50%)",
+    "hsl(40, 100%, 50%)"
+  ];
+
   const barChartData = React.useMemo(() => {
     const categoryMap = new Map<string, number>();
+    
+    // Initialize with 0 for all known categories
+    if (categories) {
+      categories.forEach(cat => {
+        categoryMap.set(cat.name, 0);
+      });
+    }
+
     items.forEach((item) => {
       categoryMap.set(item.category, (categoryMap.get(item.category) || 0) + 1);
     });
     
     return Array.from(categoryMap.entries())
-      .map(([category, count]) => ({ category: category.slice(0, 10), count }))
-      .sort((a, b) => b.count - a.count)
-      .slice(0, 6);
-  }, [items]);
+      .map(([category, count], index) => ({ 
+        category: category.slice(0, 15), 
+        count,
+        fill: colors[index % colors.length]
+      }))
+      .sort((a, b) => b.count - a.count);
+  }, [items, categories]);
 
   const lineChartData = React.useMemo(() => {
     const warehouseMap = new Map<string, number>();
+    
+    // Initialize with 0 for all known warehouses
+    if (warehouses) {
+      warehouses.forEach(wh => {
+        warehouseMap.set(wh.name, 0);
+      });
+    }
+
     items.forEach((item) => {
       warehouseMap.set(item.warehouse, (warehouseMap.get(item.warehouse) || 0) + item.quantity_on_hand);
     });
     
-    const colors = ["var(--chart-1)", "var(--chart-2)", "var(--chart-3)", "var(--chart-4)", "var(--chart-5)"];
     return Array.from(warehouseMap.entries())
       .map(([warehouse, quantity], index) => ({ 
         warehouse,
@@ -48,7 +81,24 @@ export function InventoryVisualization({ items }: InventoryVisualizationProps) {
         fill: colors[index % colors.length]
       }))
       .sort((a, b) => b.quantity - a.quantity);
-  }, [items]);
+  }, [items, warehouses]);
+
+  const categoryChartConfig = React.useMemo(() => {
+    const config: Record<string, any> = {
+      count: {
+        label: "Items",
+      },
+    };
+    
+    barChartData.forEach((item) => {
+      config[item.category] = {
+        label: item.category,
+        color: item.fill,
+      };
+    });
+    
+    return config;
+  }, [barChartData]) as ChartConfig;
 
   const warehouseChartConfig = React.useMemo(() => {
     const config: Record<string, any> = {
@@ -67,13 +117,6 @@ export function InventoryVisualization({ items }: InventoryVisualizationProps) {
     return config;
   }, [lineChartData]) as ChartConfig;
 
-  const barChartConfig = {
-    count: {
-      label: "Items",
-      color: "var(--chart-2)",
-    },
-  } satisfies ChartConfig;
-
   if (barChartData.length === 0) {
     return null;
   }
@@ -88,7 +131,7 @@ export function InventoryVisualization({ items }: InventoryVisualizationProps) {
             <CardDescription className="text-xs">Top categories</CardDescription>
           </CardHeader>
           <CardContent>
-            <ChartContainer config={barChartConfig}>
+            <ChartContainer config={categoryChartConfig}>
               <BarChart accessibilityLayer data={barChartData}>
                 <CartesianGrid vertical={false} />
                 <XAxis

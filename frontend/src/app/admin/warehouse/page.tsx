@@ -68,6 +68,11 @@ export default function WarehousePage() {
       toast.error("Warehouse name is required");
       return;
     }
+    
+    if (!formData.location.trim()) {
+      toast.error("Warehouse location is required");
+      return;
+    }
 
     try {
       await createWarehouse(formData).unwrap();
@@ -83,6 +88,11 @@ export default function WarehousePage() {
   const handleEdit = async () => {
     if (!formData.name.trim()) {
       toast.error("Warehouse name is required");
+      return;
+    }
+
+    if (!formData.location.trim()) {
+      toast.error("Warehouse location is required");
       return;
     }
 

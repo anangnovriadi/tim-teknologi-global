@@ -2,12 +2,18 @@
 
 import DashboardLayout from "@/components/layouts/layout-dashboard";
 import { useGetAllInventoryQuery } from "@/store/api/inventory-api";
+import { useGetAllWarehousesQuery } from "@/store/api/warehouse-api";
+import { useGetAllCategoriesQuery } from "@/store/api/category-api";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { InventoryVisualization } from "@/components/inventory-visualization";
-import { Package, AlertCircle, Loader2, Warehouse, CheckCircle, XCircle } from "lucide-react";
+import { Package, AlertCircle, Loader2, Warehouse, CheckCircle, XCircle, Tags } from "lucide-react";
 
 export default function Page() {
-  const { data: inventoryItems = [], isLoading } = useGetAllInventoryQuery();
+  const { data: inventoryItems = [], isLoading: isLoadingInventory } = useGetAllInventoryQuery();
+  const { data: warehouses = [], isLoading: isLoadingWarehouses } = useGetAllWarehousesQuery();
+  const { data: categories = [], isLoading: isLoadingCategories } = useGetAllCategoriesQuery();
+  
+  const isLoading = isLoadingInventory || isLoadingWarehouses || isLoadingCategories;
 
   const totalItems = inventoryItems.length;
   const lowStockItems = inventoryItems.filter(
@@ -19,7 +25,8 @@ export default function Page() {
   const outOfStockItems = inventoryItems.filter(
     (item) => item.quantity_on_hand === 0
   ).length;
-  const totalWarehouses = new Set(inventoryItems.map((item) => item.warehouse)).size;
+  const totalWarehouses = warehouses.length;
+  const totalCategories = categories.length;
 
   const StatCard = ({ title, value, icon: Icon, bgColor, textColor }: any) => (
     <Card>
@@ -48,8 +55,8 @@ export default function Page() {
 
   return (
     <DashboardLayout title="Dashboard">
-      {/* Row 1: Total Items & Total Warehouse */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 ">
+      {/* Row 1: Total Items & Total Warehouse & Total Category */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 ">
         <StatCard
           title="Total Inventory Items"
           value={totalItems}
@@ -63,6 +70,13 @@ export default function Page() {
           icon={Warehouse}
           bgColor="bg-purple-100 dark:bg-purple-900/30"
           textColor="text-purple-600 dark:text-purple-400"
+        />
+        <StatCard
+          title="Total Category"
+          value={totalCategories}
+          icon={Tags}
+          bgColor="bg-indigo-100 dark:bg-indigo-900/30"
+          textColor="text-indigo-600 dark:text-indigo-400"
         />
       </div>
 
@@ -92,7 +106,11 @@ export default function Page() {
       </div>
 
       {/* Row 3: Charts */}
-      <InventoryVisualization items={inventoryItems} />
+      <InventoryVisualization 
+        items={inventoryItems} 
+        categories={categories}
+        warehouses={warehouses}
+      />
     </DashboardLayout>
   );
 }
